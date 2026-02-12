@@ -1,0 +1,168 @@
+:root {
+    --primary-color: #FFC107;
+    --secondary-color: #FFB300;
+    --success-color: #2ecc71;
+    --info-color: #3498db;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --dark-color: #212529;
+    --light-color: #f8f9fa;
+    --sidebar-bg: #ffffff;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+}
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #334155;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    box-shadow: 4px 0 10px rgba(0,0,0,0.02);
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    padding: 12px 20px;
+    margin: 4px 15px;
+    border-radius: 12px;
+    font-weight: 500;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    background: rgba(255, 193, 7, 0.1);
+    color: #000;
+}
+
+.nav-link.active {
+    background: var(--primary-color) !important;
+    color: #000 !important;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.nav-link i {
+    font-size: 1.1rem;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+}
+
+.stat-card {
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-card::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+.icon-shape {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+/* Table Styling */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #f8fafc;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #64748b;
+    border-top: none;
+    padding: 15px;
+}
+
+.table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    border-color: #f1f5f9;
+}
+
+/* Navbar Styling */
+.navbar {
+    background: rgba(240, 242, 245, 0.8) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.search-bar {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 8px 15px;
+    border: 1px solid #e2e8f0;
+    width: 300px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    margin-left: 10px;
+}
+
+/* Button Overrides */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #000;
+    font-weight: 600;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    color: #000 !important;
+}
+
+.text-primary {
+    color: #d4a017 !important; /* Darker amber for text readability */
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

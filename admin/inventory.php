@@ -1,72 +1,88 @@
 <?php 
     include '../config/config.php';
     include '../includes/session.php';
-?>
-<?php 
+
   class data extends Connection{ 
     public function managedata(){ 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include '../includes/header.php'; ?>
-<body class="bg-light">
+<head>
+    <?php include '../includes/header.php'; ?>
+    <link rel="stylesheet" href="../asset/css/modern-admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <!-- Sidebar -->
     <?php include '../includes/sidebar.php'; ?>
 
-    <!-- Main Content -->
-    <div class="flex-grow-1" style="margin-left: 250px;">
-
-        <!-- Navbar -->
+    <div class="flex-grow-1" style="margin-left: 260px;">
         <?php include '../includes/navbar.php'; ?>
 
-        <!-- Page Content -->
         <div class="p-4">            
-
-            <!-- Inventory Table -->
             <div class="card border-0 shadow-sm">
-                <div class="card-body">
+                <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="mb-0 fw-bold">Product Inventory</h5>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                            <i class="bi bi-plus-circle me-2"></i>Add New Product
+                        <div>
+                            <h5 class="mb-1 fw-bold">Product Inventory</h5>
+                            <p class="text-muted small mb-0">Manage and track your stock levels</p>
+                        </div>
+                        <button class="btn btn-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="bi bi-plus-lg me-2"></i>Add New Product
                         </button>
                     </div>                        
 
-                    <!-- Table -->
                     <div class="table-responsive">
-                        <table id="datatable" class="table table-hover align-middle">
-                            <thead class="table-light">
+                        <table id="datatable" class="table align-middle">
+                            <thead>
                                 <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
+                                    <th>Product Details</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Actions</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $sql = "SELECT * FROM products";
+                                <?php 
+                                $sql = "SELECT * FROM products ORDER BY id DESC";
                                 $stmt = $this->conn()->query($sql);
-                                while ($row = $stmt->fetch()) { ?>
+                                while ($row = $stmt->fetch()) { 
+                                    $status_class = $row['quantity'] > 10 ? 'bg-success' : ($row['quantity'] > 0 ? 'bg-warning' : 'bg-danger');
+                                    $status_text = $row['quantity'] > 10 ? 'In Stock' : ($row['quantity'] > 0 ? 'Low Stock' : 'Out of Stock');
+                                ?>
                                     <tr>
-                                        <td><img src="../images/<?= $row['images']; ?>" width="100"></td>
-                                        <td><?= $row['name']; ?></td>
-                                        <td><?= $row['price']; ?></td>
-                                        <td><?= $row['quantity']; ?></td>
                                         <td>
-                                            <button class="edit btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editProductModal"
+                                            <div class="d-flex align-items-center">
+                                                <img src="../images/<?= $row['images']; ?>" class="rounded-3 me-3" width="50" height="50" style="object-fit: cover;">
+                                                <div>
+                                                    <div class="fw-bold"><?= $row['name']; ?></div>
+                                                    <div class="text-muted small text-truncate" style="max-width: 200px;"><?= $row['description']; ?></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold">₱<?= number_format($row['price'], 2); ?></td>
+                                        <td>
+                                            <div class="fw-bold"><?= $row['quantity']; ?></div>
+                                        </td>
+                                        <td>
+                                            <span class="badge <?= $status_class ?> bg-opacity-10 text-<?= explode('-', $status_class)[1] ?> px-3 py-2 rounded-pill">
+                                                <?= $status_text ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <button class="edit btn btn-sm btn-light rounded-circle p-2 me-1" data-bs-toggle="modal" data-bs-target="#editProductModal"
                                             data-edit_id="<?= $row['id']; ?>"
                                             data-edit_name="<?= $row['name']; ?>"
                                             data-edit_description="<?= $row['description']; ?>"
                                             data-edit_price="<?= $row['price']; ?>"
                                             data-edit_quantity="<?= $row['quantity']; ?>"
                                             >
-                                                <i class="bi bi-pencil"></i>
+                                                <i class="bi bi-pencil text-primary"></i>
                                             </button>
-                                            <button class="delete btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            <button class="delete btn btn-sm btn-light rounded-circle p-2" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                             data-delete_id="<?= $row['id']; ?>">
-                                                <i class="bi bi-trash"></i>
+                                                <i class="bi bi-trash text-danger"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -90,6 +106,9 @@
             $('#edit_description').val($(this).data('edit_description'))
             $('#edit_price').val($(this).data('edit_price'))
             $('#edit_quantity').val($(this).data('edit_quantity'))
+        })
+        $('.delete').click(function(){
+            $('#delete_id').val($(this).data('delete_id'))
         })
     </script>
 

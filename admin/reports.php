@@ -14,58 +14,74 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include '../includes/header.php'; ?>
+<head>
+    <?php include '../includes/header.php'; ?>
+    <link rel="stylesheet" href="../asset/css/modern-admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 <body>
     <?php include '../includes/sidebar.php'; ?>
 
-    <div class="flex-grow-1" style="margin-left: 250px;">
+    <div class="flex-grow-1" style="margin-left: 260px;">
         <?php include '../includes/navbar.php'; ?>
 
         <div class="p-4">
             <h4 class="fw-bold mb-4">Reports & Analytics</h4>
 
-            <div class="row mb-4">
+            <div class="row g-4 mb-4">
                 <div class="col-md-3">
-                    <div class="card border-0 shadow-sm bg-primary text-white">
-                        <div class="card-body">
-                            <p class="mb-1">Total Revenue</p>
-                            <h3 class="fw-bold">₱<?= number_format($total_sales, 2) ?></h3>
+                    <div class="card border-0 shadow-sm stat-card h-100">
+                        <div class="card-body p-4">
+                            <div class="icon-shape bg-primary bg-opacity-10 text-primary mb-3">
+                                <i class="bi bi-wallet2 fs-4"></i>
+                            </div>
+                            <p class="text-muted small mb-1 fw-medium">Total Revenue</p>
+                            <h4 class="fw-bold mb-0">₱<?= number_format($total_sales, 2) ?></h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 shadow-sm bg-success text-white">
-                        <div class="card-body">
-                            <p class="mb-1">Online Sales</p>
-                            <h3 class="fw-bold">₱<?= number_format($online_sales, 2) ?></h3>
+                    <div class="card border-0 shadow-sm stat-card h-100">
+                        <div class="card-body p-4">
+                            <div class="icon-shape bg-success bg-opacity-10 text-success mb-3">
+                                <i class="bi bi-globe fs-4"></i>
+                            </div>
+                            <p class="text-muted small mb-1 fw-medium">Online Sales</p>
+                            <h4 class="fw-bold mb-0">₱<?= number_format($online_sales, 2) ?></h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 shadow-sm bg-info text-white">
-                        <div class="card-body">
-                            <p class="mb-1">POS Sales</p>
-                            <h3 class="fw-bold">₱<?= number_format($pos_sales, 2) ?></h3>
+                    <div class="card border-0 shadow-sm stat-card h-100">
+                        <div class="card-body p-4">
+                            <div class="icon-shape bg-info bg-opacity-10 text-info mb-3">
+                                <i class="bi bi-shop fs-4"></i>
+                            </div>
+                            <p class="text-muted small mb-1 fw-medium">POS Sales</p>
+                            <h4 class="fw-bold mb-0">₱<?= number_format($pos_sales, 2) ?></h4>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 shadow-sm bg-warning text-white">
-                        <div class="card-body">
-                            <p class="mb-1">Low Stock Items</p>
-                            <h3 class="fw-bold"><?= $low_stock ?></h3>
+                    <div class="card border-0 shadow-sm stat-card h-100">
+                        <div class="card-body p-4">
+                            <div class="icon-shape bg-warning bg-opacity-10 text-warning mb-3">
+                                <i class="bi bi-exclamation-triangle fs-4"></i>
+                            </div>
+                            <p class="text-muted small mb-1 fw-medium">Low Stock Items</p>
+                            <h4 class="fw-bold mb-0"><?= $low_stock ?></h4>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Recent Online Orders</h5>
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Recent Online Orders</h5>
                             <div class="table-responsive">
-                                <table class="table table-sm">
+                                <table class="table align-middle">
                                     <thead>
                                         <tr>
                                             <th>Order #</th>
@@ -79,10 +95,14 @@
                                             $sql = "SELECT order_number, amount, order_date FROM customers_info ORDER BY id DESC LIMIT 5";
                                             $stmt = $this->conn()->query($sql);
                                             while ($row = $stmt->fetch()) {
-                                                echo "<tr><td>{$row['order_number']}</td><td>₱".number_format($row['amount'], 2)."</td><td>".date('M d, Y', strtotime($row['order_date']))."</td></tr>";
+                                                echo "<tr>
+                                                        <td class='fw-bold'>{$row['order_number']}</td>
+                                                        <td class='fw-bold text-primary'>₱".number_format($row['amount'], 2)."</td>
+                                                        <td class='text-muted small'>".date('M d, Y', strtotime($row['order_date']))."</td>
+                                                      </tr>";
                                             }
                                         } catch (PDOException $e) {
-                                            echo "<tr><td colspan='3' class='text-center text-danger'>'order_date' column not found. Please add it to 'customers_info' table.</td></tr>";
+                                            echo "<tr><td colspan='3' class='text-center text-danger'>'order_date' column not found.</td></tr>";
                                         }
                                         ?>
                                     </tbody>
@@ -93,10 +113,10 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Recent POS Transactions</h5>
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-4">Recent POS Transactions</h5>
                             <div class="table-responsive">
-                                <table class="table table-sm">
+                                <table class="table align-middle">
                                     <thead>
                                         <tr>
                                             <th>TXN #</th>
@@ -109,7 +129,11 @@
                                         $sql = "SELECT transaction_no, total, transaction_date FROM pos_transactions ORDER BY id DESC LIMIT 5";
                                         $stmt = $this->conn()->query($sql);
                                         while ($row = $stmt->fetch()) {
-                                            echo "<tr><td>{$row['transaction_no']}</td><td>₱".number_format($row['total'], 2)."</td><td>".date('M d, Y', strtotime($row['transaction_date']))."</td></tr>";
+                                            echo "<tr>
+                                                    <td class='fw-bold'>{$row['transaction_no']}</td>
+                                                    <td class='fw-bold text-primary'>₱".number_format($row['total'], 2)."</td>
+                                                    <td class='text-muted small'>".date('M d, Y', strtotime($row['transaction_date']))."</td>
+                                                  </tr>";
                                         }
                                         ?>
                                     </tbody>
